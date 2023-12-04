@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
 
 import {
@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import dimensions from '../theme/dimensions';
@@ -24,22 +25,77 @@ type DiceProps = PropsWithChildren<{
 const Dice = ({imageUrl}: DiceProps) => {
   return (
     <View>
-      <Image height={dimensions.vh * 30} source={imageUrl} />
+      <Image style={styles.images} source={imageUrl} />
     </View>
   );
 };
 function App() {
-  console.log(dimensions);
+  // const dices = [DiceONe, DiceTwo, DiceThree, DiceFour, DiceFive, DiceSix];
+  // const [dice, setDice] = useState(dices[0]);
+  // console.log(dimensions);
+  const [dice, setDice] = useState(DiceONe);
+
+  const handleDice = () => {
+    let randomNumber = Math.floor(Math.random() * 7);
+    // setDice(dices[randomNumber]);
+    // console.log({dice});
+    switch (randomNumber) {
+      case 1:
+        setDice(DiceONe);
+        break;
+      case 2:
+        setDice(DiceTwo);
+        break;
+      case 3:
+        setDice(DiceThree);
+        break;
+      case 4:
+        setDice(DiceFour);
+        break;
+      case 5:
+        setDice(DiceFive);
+        break;
+      case 6:
+        setDice(DiceSix);
+        break;
+    }
+  };
 
   return (
     <SafeAreaView>
-      <View>
-        <Text>sameer</Text>
+      <View style={styles.container}>
+        <Dice imageUrl={dice} />
+
+        <TouchableOpacity onPress={handleDice}>
+          <View style={styles.actionBtn}>
+            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
+              Roll The Dice
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'black',
+    height: dimensions.vh * 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  images: {
+    width: dimensions.vw * 40,
+    height: dimensions.vh * 19,
+  },
+  actionBtn: {
+    backgroundColor: 'teal',
+    marginTop: dimensions.vh * 4,
+    paddingHorizontal: dimensions.vw * 4,
+    paddingVertical: dimensions.vh * 1,
+    borderRadius: 30,
+  },
+});
 
 export default App;
